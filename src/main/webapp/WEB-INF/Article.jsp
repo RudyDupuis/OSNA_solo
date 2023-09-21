@@ -24,7 +24,12 @@
 
 	<section class="article">
 		<div class="article-top">
-			<div class="img"></div>
+			<c:url var="imageServletURL" value="/imageServlet">
+    			<c:param name="articleId" value="${article.id}" />
+			</c:url>
+				
+			<div class="img" style="background: url(${imageServletURL}) center center / cover"></div>
+			
 			<div class="article-top-text">
 				<h2>Catégorie ${article.categorie}</h2>
 				<p>${article.description}</p>

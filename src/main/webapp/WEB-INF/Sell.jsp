@@ -26,16 +26,27 @@
 	
 	<form method="POST" action="" enctype="multipart/form-data">
 		<div class="form-top">
-			<div class="img"></div>
+			<c:if test="${article == null}">
+				<div class="img"></div>
+			</c:if>
 			
+			<c:if test="${article != null}">
+				<c:url var="imageServletURL" value="/imageServlet">
+    				<c:param name="articleId" value="${article.id}" />
+				</c:url>
+				
+				<div class="img" style="background: url(${imageServletURL}) center center / cover"></div>
+			</c:if>
+			
+
 			<div class="form-top-center">
 				<input type="text" placeholder="Nom de l'article" name="name" value="${article.name}" required/>
 				
 				<select name="categorie" required>
-  					<option value="home" ${article.categorie == 'home' ? 'selected' : ''}>Maison</option>
-  					<option value="garden" ${article.categorie == 'garden' ? 'selected' : ''}>Jardin</option>
-  					<option value="electronics" ${article.categorie == 'electronics' ? 'selected' : ''}>Électronique</option>
-  					<option value="clothing" ${article.categorie == 'clothing' ? 'selected' : ''}>Vêtements</option>
+  					<option value="Maison" ${article.categorie == 'Maison' ? 'selected' : ''}>Maison</option>
+  					<option value="Jardin" ${article.categorie == 'Jardin' ? 'selected' : ''}>Jardin</option>
+  					<option value="Electronique" ${article.categorie == 'Electronique' ? 'selected' : ''}>Électronique</option>
+  					<option value="Vetement" ${article.categorie == 'Vetement' ? 'selected' : ''}>Vêtements</option>
 				</select>
 
 				

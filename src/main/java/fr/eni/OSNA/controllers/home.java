@@ -43,8 +43,6 @@ public class home extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User userSession = (User) request.getSession().getAttribute("user");
-		int userId = userSession.getId();
 		ArticleManager articleManager = ArticleManager.getInstance();
 		List<Article> articles = null;
 		
@@ -78,60 +76,65 @@ public class home extends HttpServlet {
 			}
 		}
 		
-		if(request.getParameter("action").equals("currentAuction")){
-			try {
-				articles = articleManager.selectUserCurrentAuction(userId);
+		if(!request.getParameter("action").equals("firstFilter")) {
+				User userSession = (User) request.getSession().getAttribute("user");
+				int userId = userSession.getId();
 				
-				for (Article article : articles) {
-					boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-					article.setExpiredDate(isBeforeNow);
+				if(request.getParameter("action").equals("currentAuction")){
+					try {
+						articles = articleManager.selectUserCurrentAuction(userId);
+						
+						for (Article article : articles) {
+							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
+							article.setExpiredDate(isBeforeNow);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(request.getParameter("action").equals("wonAuction")){
-			try {
-				articles = articleManager.selectUserWonAuction(userId);
-				
-				for (Article article : articles) {
-					boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-					article.setExpiredDate(isBeforeNow);
+				if(request.getParameter("action").equals("wonAuction")){
+					try {
+						articles = articleManager.selectUserWonAuction(userId);
+						
+						for (Article article : articles) {
+							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
+							article.setExpiredDate(isBeforeNow);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(request.getParameter("action").equals("mySales")){
-			try {
-				articles = articleManager.selectUserSales(userId);
-				
-				for (Article article : articles) {
-					boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-					article.setExpiredDate(isBeforeNow);
+				if(request.getParameter("action").equals("mySales")){
+					try {
+						articles = articleManager.selectUserSales(userId);
+						
+						for (Article article : articles) {
+							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
+							article.setExpiredDate(isBeforeNow);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(request.getParameter("action").equals("myEndedSales")){
-			try {
-				articles = articleManager.selectUserEndedSales(userId);
-				
-				for (Article article : articles) {
-					boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-					article.setExpiredDate(isBeforeNow);
+				if(request.getParameter("action").equals("myEndedSales")){
+					try {
+						articles = articleManager.selectUserEndedSales(userId);
+						
+						for (Article article : articles) {
+							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
+							article.setExpiredDate(isBeforeNow);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		
 		request.setAttribute("articles", articles);

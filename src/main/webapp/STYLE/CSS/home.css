@@ -71,6 +71,11 @@ select {
 	padding: 32px;
 }
 
+.auction-list-empty {
+	padding: 128px 0;
+	text-align: center;
+}
+
 .article-card {
 	background: #F6F6F6;
 	border-radius: 10px;
@@ -110,4 +115,8 @@ select {
 	height: 40px;
 	margin-top: 8px;
 	padding: 0;
+}
+
+.article-card-noOffer {
+	margin-top: 16px;
 }
