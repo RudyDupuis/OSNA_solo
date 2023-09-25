@@ -56,3 +56,38 @@ form {
 a {
 	color : #55A630;
 }
+
+@media (max-width: 700px) {
+	.article-top {
+		flex-direction: column;
+	}
+
+	h2 {
+		text-align: center;
+		margin-top: 32px;
+	}
+
+	.article-top-text {
+		margin: 0;
+	}
+}
+
+@media (max-width: 550px) {
+	.article-top-text {
+		width: 90%;
+	}
+
+	.article-center {
+		display: flex;
+		flex-direction: column;
+	}
+
+	form {
+		flex-direction: column;
+		margin: 0;
+	}
+
+	form input {
+		margin-bottom : 32px;
+	}
+}

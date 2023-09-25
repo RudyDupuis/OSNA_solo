@@ -26,13 +26,9 @@ public class home extends HttpServlet {
 		} else {
 			try {
 				List<Article> articles = articleManager.selectAll();
-				
-				for (Article article : articles) {
-					boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-					article.setExpiredDate(isBeforeNow);
-				}
-				
+				setExpiredDate(articles);
 				request.setAttribute("articles", articles);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -46,28 +42,23 @@ public class home extends HttpServlet {
 		ArticleManager articleManager = ArticleManager.getInstance();
 		List<Article> articles = null;
 		
-		if(request.getParameter("action").equals("firstFilter")){
+		String action = request.getParameter("action");
+		
+		if(action.equals("firstFilter")){
 			if(!request.getParameter("filterSearch").isEmpty()) {
 				try {
 					articles = articleManager.selectByKeyword(request.getParameter("filterSearch"));
-					
-					for (Article article : articles) {
-						boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-						article.setExpiredDate(isBeforeNow);
-					}
+					setExpiredDate(articles);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			} else {
 				if(!request.getParameter("categorie").equals("all")) {
 					try {
 						articles = articleManager.selectByCategorie(request.getParameter("categorie"));
-						
-						for (Article article : articles) {
-							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-							article.setExpiredDate(isBeforeNow);
-						}
+						setExpiredDate(articles);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -76,60 +67,44 @@ public class home extends HttpServlet {
 			}
 		}
 		
-		if(!request.getParameter("action").equals("firstFilter")) {
+		if(!action.equals("firstFilter")) {
 				User userSession = (User) request.getSession().getAttribute("user");
 				int userId = userSession.getId();
 				
-				if(request.getParameter("action").equals("currentAuction")){
+				if(action.equals("currentAuction")){
 					try {
 						articles = articleManager.selectUserCurrentAuction(userId);
-						
-						for (Article article : articles) {
-							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-							article.setExpiredDate(isBeforeNow);
-						}
+						setExpiredDate(articles);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				
-				if(request.getParameter("action").equals("wonAuction")){
+				if(action.equals("wonAuction")){
 					try {
 						articles = articleManager.selectUserWonAuction(userId);
-						
-						for (Article article : articles) {
-							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-							article.setExpiredDate(isBeforeNow);
-						}
+						setExpiredDate(articles);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				
-				if(request.getParameter("action").equals("mySales")){
+				if(action.equals("mySales")){
 					try {
 						articles = articleManager.selectUserSales(userId);
-						
-						for (Article article : articles) {
-							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-							article.setExpiredDate(isBeforeNow);
-						}
+						setExpiredDate(articles);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				
-				if(request.getParameter("action").equals("myEndedSales")){
+				if(action.equals("myEndedSales")){
 					try {
 						articles = articleManager.selectUserEndedSales(userId);
-						
-						for (Article article : articles) {
-							boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
-							article.setExpiredDate(isBeforeNow);
-						}
+						setExpiredDate(articles);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -140,6 +115,13 @@ public class home extends HttpServlet {
 		request.setAttribute("articles", articles);
 		
 		doGet(request, response);
+	}
+	
+	private void setExpiredDate(List<Article> articles) {
+		for (Article article : articles) {
+			boolean isBeforeNow = article.getEndDate().isBefore(LocalDate.now());
+			article.setExpiredDate(isBeforeNow);
+		}
 	}
 
 }

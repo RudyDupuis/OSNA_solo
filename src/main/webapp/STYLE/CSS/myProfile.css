@@ -15,6 +15,10 @@
 	flex-direction: column;
 }
 
+.form-inputs input:not(:first-child) {
+	margin-left: 32px;
+}
+
 h2 {
 	margin: 16px 0;
 }
@@ -32,4 +36,36 @@ h2 {
 
 .other-btns-delete {
 	background-color: #DF7800;
+}
+
+@media (max-width: 1200px) {
+	.form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.form-inputs {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.form-inputs input:not(:first-child) {
+		margin-left: 0;
+	}
+	
+	.form-inputs input {
+		margin: 16px 0;
+	}
+}
+
+@media (max-width: 800px) {
+	.other-btns {
+		flex-direction: column;
+	}
+	
+	.other-btns-delete {
+		margin-top: 64px;
+	}
 }

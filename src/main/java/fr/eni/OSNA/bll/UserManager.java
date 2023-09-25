@@ -27,14 +27,20 @@ public class UserManager {
 	public void update(User user, User userSession) throws Exception {
 		StringBuilder error = new StringBuilder();
 		boolean hasError = false;
-		//TODO vérifier les champs.
 		
-		if(user.getMail() != userSession.getMail() && !dao.checkUniqueMail(user)) {
+		StringBuilder errorCheckInput = checkInputFields(user);
+		
+		if(errorCheckInput != null) {
+			hasError = true;
+			error.append(errorCheckInput);
+		}
+		
+		if(!user.getMail().equals(userSession.getMail()) && !dao.checkUniqueMail(user)) {
 			hasError = true;
 			error.append(MessageReader.getErrorMessage(ErrorCode.ERROR_MAIL_NOTUNIQUE)).append("\n");
 		}
 		
-		if(user.getPseudo() != userSession.getPseudo() && !dao.checkUniquePseudo(user)) {
+		if(!user.getMail().equals(userSession.getMail()) && !dao.checkUniquePseudo(user)) {
 			hasError = true;
 			error.append(MessageReader.getErrorMessage(ErrorCode.ERROR_PSEUDO_NOTUNIQUE)).append("\n");
 		}
@@ -49,7 +55,13 @@ public class UserManager {
 	public void insert(User user) throws Exception {
 		StringBuilder error = new StringBuilder();
 		boolean hasError = false;
-		//TODO vérifier les champs.
+		
+		StringBuilder errorCheckInput = checkInputFields(user);
+		
+		if(errorCheckInput != null) {
+			hasError = true;
+			error.append(errorCheckInput);
+		}
 		
 		if(!dao.checkUniqueMail(user)) {
 			hasError = true;
@@ -85,5 +97,61 @@ public class UserManager {
 	
 	public String getPseudo(int id) throws Exception {
 		return dao.getPseudo(id);
+	}
+	
+	public void updatePoints(User user, int Offer, String action) throws Exception {
+		if(action.equals("pay")) {	
+			if(user.getPoints() < Offer) {
+				throw new Exception("Vous n'avez pas assez de points pour faire cette offre");
+			}
+			
+			user.setPoints(user.getPoints() - Offer);
+		}
+		
+		if(action.equals("repay")) {
+			System.out.println(user.getFirstName());
+			System.out.println(user.getPoints());
+			user.setPoints(user.getPoints() + Offer);
+			System.out.println(user.getPoints());
+		}
+		
+		dao.updatePoints(user);
+	}
+	
+	private StringBuilder checkInputFields(User user) {
+		StringBuilder error = new StringBuilder();
+		boolean hasError = false;
+		
+		if (!user.getFirstName().matches("[\\p{L}]{3,}") || !user.getLastName().matches("[\\p{L}]{3,}")) {
+		    hasError = true;
+		    error.append("Le champ 'Prénom' et 'Nom' ne doivent contenir que des lettres et avoir au moins 3 caractères.\n");
+		}
+
+		if(!user.getMail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+			hasError = true;
+		    error.append("Le format du mail n'est pas valide.\n");
+		}
+		
+		if(!user.getPhone().matches("^(\\+(33|0)[1-9](?:[0-9]{2}){4}|0[1-9][0-9]{8})$")) {
+			hasError = true;
+		    error.append("Le format du téléphone n'est pas valide.\n");
+		}
+		
+		if(!user.getPseudo().matches("^[a-zA-Z0-9_-]{3,}")) {
+			hasError = true;
+		    error.append("Le pseudo doit faire plus de 3 caractères et contenir des chiffres et des lettres uniquement.\n");
+		}
+		
+		if(!user.getPassword().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!.]).{8,}$")) {
+			hasError = true;
+		    error.append("Le mot de passe doit faire plus de 8 caractères et contenir au moins un chiffre, une minuscule, une majuscule et un caractère spécial.\n");
+		}
+		
+		if(hasError) {
+			return error;
+		} else {
+			return null;
+		}
+		
 	}
 }

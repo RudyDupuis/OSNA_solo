@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.OSNA.bll.UserManager;
 import fr.eni.OSNA.bo.User;
+import fr.eni.OSNA.messages.ErrorCode;
+import fr.eni.OSNA.messages.MessageReader;
 
 @WebServlet("/inscription")
 public class register extends HttpServlet {
@@ -19,9 +21,11 @@ public class register extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//check password
+		UserManager userManager = UserManager.getInstance();
+		
 		if(!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
-			errorDirection(request, response, "Les deux mots de passe ne sont pas identiques");
+			errorDirection(request, response, MessageReader.getErrorMessage(ErrorCode.ERROR_DIFF_PASSWORD));
+			
 		} else {
 
 			User user = new User(
@@ -36,13 +40,14 @@ public class register extends HttpServlet {
 					request.getParameter("password")
 					);
 			
-			UserManager userManager = UserManager.getInstance();
-			
 			try {
 				userManager.insert(user);
+				
+				/* Log in the user and send them to the home page */
 				User userConnected = userManager.login(user.getPseudo(), user.getPassword());
 				request.getSession().setAttribute("user", userConnected);
 				response.sendRedirect(request.getContextPath() + "/");
+				
 			} catch (Exception e) {
 				errorDirection(request, response, e.getMessage());
 			}

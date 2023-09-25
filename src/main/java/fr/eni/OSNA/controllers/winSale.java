@@ -18,28 +18,29 @@ public class winSale extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticleManager articleManager = ArticleManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
+		
 		Article article = null;
 		
 		if(request.getParameter("articleId") != null) {
 			int articleId = Integer.valueOf(request.getParameter("articleId"));
 			
 			try {
-				article = articleManager.selectById(articleId);
+				article = articleManager.selectById(articleId);	
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			try {
-				article.setNameSeller(userManager.getPseudo(article.getIdSeller()));
+				article.setNameSeller(userManager.getPseudo(article.getIdSeller()));	
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("message", e.getMessage());
 			}
 			
 			if(article.getIdUserBestOffer() != 0) {
 				try {
-					article.setNameUserBestOffer(userManager.getPseudo(article.getIdUserBestOffer()));
+					article.setNameUserBestOffer(userManager.getPseudo(article.getIdUserBestOffer()));	
 				} catch (Exception e) {
-					e.printStackTrace();
+					request.setAttribute("message", e.getMessage());
 				}
 			}
 		}
@@ -50,7 +51,15 @@ public class winSale extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		int articleId = Integer.valueOf(request.getParameter("articleId"));
+		ArticleManager articleManager = ArticleManager.getInstance();
+		
+		try {
+			articleManager.updatePickedUp(articleId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		doGet(request, response);
 	}
 

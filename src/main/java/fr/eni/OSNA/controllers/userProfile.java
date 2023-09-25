@@ -23,6 +23,7 @@ public class userProfile extends HttpServlet {
 		try {
 			user = userManager.selectById(userId);
 			request.setAttribute("user", user);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

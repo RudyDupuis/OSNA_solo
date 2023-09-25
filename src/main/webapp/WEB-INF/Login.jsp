@@ -22,12 +22,11 @@
 		<section class="form">
 			<form method="POST" action="">
 				<input type="text" placeholder="Identifiant" name="id" required />
-				<input type="text" placeholder="Mot de passe" name="password"
-					required /> <input type="submit" value="Connexion" />
+				<input type="password" placeholder="Mot de passe" name="password" required /> 
+				<input type="submit" value="Connexion" />
 			</form>
 
-			<a href="inscription"><button class="btn-secondary">Créer
-					un compte</button></a>
+			<a href="inscription"><button class="btn-secondary">Créer un compte</button></a>
 		</section>
 
 		<p class="message">${message}</p>

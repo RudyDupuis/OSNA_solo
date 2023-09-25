@@ -32,7 +32,8 @@ public class UserDaoJdbcImpl implements UserDAO{
 								rs.getString("phone"),
 								rs.getString("street"),
 								rs.getInt("postalCode"),
-								rs.getString("city")
+								rs.getString("city"),
+								rs.getInt("points")
 							);
 			} 
 			

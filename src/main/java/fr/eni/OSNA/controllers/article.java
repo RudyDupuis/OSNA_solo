@@ -19,6 +19,7 @@ public class article extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticleManager articleManager = ArticleManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
+		
 		Article article = null;
 		
 		if(request.getParameter("articleId") != null) {
@@ -33,14 +34,14 @@ public class article extends HttpServlet {
 			try {
 				article.setNameSeller(userManager.getPseudo(article.getIdSeller()));
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("message", e.getMessage());
 			}
 			
 			if(article.getIdUserBestOffer() != 0) {
 				try {
 					article.setNameUserBestOffer(userManager.getPseudo(article.getIdUserBestOffer()));
 				} catch (Exception e) {
-					e.printStackTrace();
+					request.setAttribute("message", e.getMessage());
 				}
 			}
 		}
@@ -51,15 +52,14 @@ public class article extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArticleManager articleManager = ArticleManager.getInstance();
 		User userSession = (User) request.getSession().getAttribute("user");
-		int userId = userSession.getId();
+		
 		int points = Integer.valueOf(request.getParameter("points"));
 		int articleId = Integer.valueOf(request.getParameter("articleId"));
 		
-		ArticleManager articleManager = ArticleManager.getInstance();
-		
 		try {
-			articleManager.updateOffer(points, userId, articleId);
+			articleManager.updateOffer(points, userSession, articleId);
 			request.setAttribute("message", "Vous avez fait une offre de " + points + " points");
 		} catch (Exception e) {
 			request.setAttribute("message", e.getMessage());

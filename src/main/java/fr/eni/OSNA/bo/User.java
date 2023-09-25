@@ -29,7 +29,7 @@ public class User {
 	}
 	
 	public User(int id, String firstName, String lastName, String pseudo, String mail, String phone, String street,
-			int postalCode, String city) {
+			int postalCode, String city, int points) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -39,6 +39,7 @@ public class User {
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
+		this.points = points;
 	}
 	
 	public User(int id, String firstName, String lastName, String pseudo, String mail, String phone, String street,

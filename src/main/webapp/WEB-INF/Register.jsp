@@ -19,31 +19,31 @@
 	<h1>S'inscrire</h1>
 	
 	<form method="POST" action="">
-		<div>
+		<div class="form">
 			<h2>Nom et Prénom</h2>
-			<div>
-				<input type="text" placeholder="Prénom" name="firstName" value="${firstNameSave}" required />
-				<input type="text" placeholder="Nom" name="lastName" value="${lastNameSave}" required />
+			<div class="form-inputs">
+				<input type="text" placeholder="Prénom" name="firstName" value="${firstNameSave}" maxlength="30" required />
+				<input type="text" placeholder="Nom" name="lastName" value="${lastNameSave}" maxlength="30" required />
 			</div>
 			
 			<h2>Pseudo, Mail et Téléphone</h2>
-			<div>
-				<input type="text" placeholder="Pseudo" name="pseudo" value="${pseudoSave}" required />
-				<input type="email" placeholder="Mail" name="mail" value="${mailSave}" required />
-				<input type="text" placeholder="Téléphone" name="phone" value="${phoneSave}" />
+			<div class="form-inputs">
+				<input type="text" placeholder="Pseudo" name="pseudo" value="${pseudoSave}" maxlength="30" required />
+				<input type="email" placeholder="Mail" name="mail" value="${mailSave}" maxlength="100" required />
+				<input type="text" placeholder="Téléphone" name="phone" value="${phoneSave}" maxlength="15" required />
 			</div>
 			
 			<h2>Adresse</h2>
-			<div>
-				<input type="text" placeholder="Rue" name="street" value="${streetSave}" required />
-				<input type="number" placeholder="Code Postal" name="postalCode" value="${postalCodeSave}" required />
-				<input type="text" placeholder="Ville" name="city" value="${citySave}" />
+			<div class="form-inputs">
+				<input type="text" placeholder="Rue" name="street" value="${streetSave}" maxlength="255" required />
+				<input type="number" placeholder="Code Postal" name="postalCode" value="${postalCodeSave}" min="10000" min="99999" required />
+				<input type="text" placeholder="Ville" name="city" value="${citySave}" maxlength="100" required />
 			</div>
 			
 			<h2>Mot de passe</h2>
-			<div>
-				<input type="password" placeholder="Mot de passe" name="password" required />
-				<input type="password" placeholder="Confirmer le mot de passe" name="confirmPassword" required />
+			<div class="form-inputs">
+				<input type="password" placeholder="Mot de passe" name="password" maxlength="50" required />
+				<input type="password" placeholder="Confirmer le mot de passe" name="confirmPassword" maxlength="50" required />
 			</div>
 		</div>
 		
