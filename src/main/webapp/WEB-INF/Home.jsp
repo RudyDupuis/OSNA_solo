@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/STYLE/CSS/settings.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/STYLE/CSS/home.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/STYLE/IMG/Favicon.png"/>
 </head>
 <body>
 	<c:set var="userExists" value="${not empty sessionScope.user}" />

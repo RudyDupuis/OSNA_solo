@@ -12,6 +12,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/STYLE/CSS/winSale.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/STYLE/IMG/Favicon.png"/>
 </head>
 <body>
 	<jsp:include page="Componants/Nav.jsp">
